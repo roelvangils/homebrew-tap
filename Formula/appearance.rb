@@ -4,7 +4,6 @@ class Appearance < Formula
   version "1.0.0"
   license "MIT"
 
-  # Add a URL - this is required by Homebrew
   if Hardware::CPU.arm?
     url "https://raw.githubusercontent.com/roelvangils/appearance/main/downloads/appearance-arm64"
     sha256 "45edfb9d49aea7b69757aebe0d7c0a8bb45eb4b8cb9af0e66636a9af27d99772"
@@ -14,9 +13,13 @@ class Appearance < Formula
   end
 
   def install
-    # The binary is downloaded directly to the temporary directory
-    # We just need to install it with the correct name
-    bin.install Pathname.pwd.children.first => "appearance"
+    # Save the downloaded file with a temporary name to avoid confusion
+    mv Pathname.pwd.children.first, "appearance-binary"
+
+    # Install it to bin with the correct name
+    bin.install "appearance-binary" => "appearance"
+
+    # Ensure proper permissions
     chmod 0755, bin/"appearance"
   end
 
