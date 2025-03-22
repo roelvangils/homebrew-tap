@@ -4,27 +4,20 @@ class Appearance < Formula
   version "1.0.0"
   license "MIT"
 
-  # We'll use a shell script to download and install the binary
+  # Add a URL - this is required by Homebrew
+  if Hardware::CPU.arm?
+    url "https://raw.githubusercontent.com/roelvangils/appearance/main/downloads/appearance-arm64"
+    sha256 "45edfb9d49aea7b69757aebe0d7c0a8bb45eb4b8cb9af0e66636a9af27d99772"
+  else
+    url "https://raw.githubusercontent.com/roelvangils/appearance/main/downloads/appearance-x86_64"
+    sha256 "60166484759a80decc1f6ed266ae907748d7f6d5389b3b96f9179e9912e9a286"
+  end
+
   def install
-    # Create a shell script to download the correct binary
-    (buildpath/"install.sh").write <<~EOS
-      #!/bin/bash
-      if [[ $(uname -m) == 'arm64' ]]; then
-        curl -s -o appearance https://raw.githubusercontent.com/roelvangils/appearance/main/downloads/appearance-arm64
-      else
-        curl -s -o appearance https://raw.githubusercontent.com/roelvangils/appearance/main/downloads/appearance-x86_64
-      fi
-      chmod +x appearance
-    EOS
-    
-    # Make the script executable
-    chmod 0755, "install.sh"
-    
-    # Run the script
-    system "./install.sh"
-    
-    # Install the downloaded binary
-    bin.install "appearance"
+    # The binary is downloaded directly to the temporary directory
+    # We just need to install it with the correct name
+    bin.install Pathname.pwd.children.first => "appearance"
+    chmod 0755, bin/"appearance"
   end
 
   test do
