@@ -1,8 +1,8 @@
 class ShokzBattery < Formula
   desc "Check your Shokz headset battery level from the command line"
   homepage "https://github.com/roelvangils/shokz-battery"
-  url "https://github.com/roelvangils/shokz-battery/archive/refs/tags/v1.2.0.tar.gz"
-  sha256 "2c7f1771417ce3dae28df88fe2e91b35bc9f23e374e11ed7b12c2de8ae9f50a7"
+  url "https://github.com/roelvangils/shokz-battery/archive/refs/tags/v1.2.1.tar.gz"
+  sha256 "ac42b76a6b3b359bfa008986a5bf9e43af8eda2809acfa23ac156195a46427dc"
   license "MIT"
 
   depends_on :macos
