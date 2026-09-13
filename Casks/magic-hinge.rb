@@ -14,9 +14,10 @@ cask "magic-hinge" do
   app "Magic Hinge.app"
 
   # Sonoma 14.0/14.1 are insufficient for SCScreenshotManager.
-  preflight do
-    if MacOS.version < MacOSVersion.new("14.2")
-      odie "Magic Hinge requires macOS 14.2 or later."
-    end
+  preflight_steps do
+    run "/bin/sh",
+        args: ["-c", 'v="$(/usr/bin/sw_vers -productVersion)"; ' \
+                     'case "$v" in 14.0|14.0.*|14.1|14.1.*) ' \
+                     'echo "Magic Hinge requires macOS 14.2 or later (found $v)." >&2; exit 1;; esac']
   end
 end
